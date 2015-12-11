@@ -51,14 +51,22 @@ namespace cstar {
             const T DoubleNormal() {
 
             }
+
+            template<typename T>
+            const T ExponentialLogistic() {
+
+            }
+
+            template<typename T>
+            const T NonParametric() {
+
+            }
         }
 
-    }
-
-    namespace size{
+        namespace size {
         
+        }
     }
-
 }
 
 #endif /* SELECTIVITY_HPP */
