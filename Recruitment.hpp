@@ -7,10 +7,11 @@ namespace cstar {
     namespace recruitment {
 
         /**
-         * 
+         * Ricker S-R relationship
+         *
          * @param alpha -
          * @param beta  -
-         * @param S     - number of spawners (adult fish)
+         * @param S     - spawning biomass or abundance
          * @return 
          */
         template<typename T>
@@ -19,11 +20,25 @@ namespace cstar {
         }
 
         /**
-         * 
-         * @param alpha  - maximum recruitment 
+         * Alternative Ricker S-R relationship
+         *
+         * @param alpha -
+         * @param beta  -
+         * @param S     - spawning biomass or abundance
+         * @return
+         */
+        template<typename T>
+        const T Ricker_alt(const T& alpha, const T& beta, const T& S) {
+            return alpha * S * std::exp(-1.0 * beta * S);
+        }
+
+        /**
+         * Beverton-Holt S-R relationship
+         *
+         * @param alpha  - maximum recruitment
          * @param beta   - the stock level needed to produce the half of maximum recruitment
-         * @param S      - 
-         * @return 
+         * @param S      - spawning biomass or abundance
+         * @return
          */
         template<typename T>
         const T BevertonHolt(const T& alpha, const T& beta, const T& S) {
@@ -31,19 +46,49 @@ namespace cstar {
         }
 
         /**
-         * 
-         * @param alpha
-         * @param beta
-         * @param c
-         * @param S
+         * Alternative Beverton-Holt S-R relationship
+         *
+         * @param alpha  - maximum recruitment 
+         * @param beta   - the stock level needed to produce the half of maximum recruitment
+         * @param S      - spawning biomass or abundance
          * @return 
          */
         template<typename T>
-        const T Shepard(const T& alpha, const T& beta, const T& c, const T& S) {
-            return alpha * (S * S) / (1 + std::pow((S / beta), c));
+        const T BevertonHolt_alt(const T& alpha, const T& beta, const T& S) {
+            return (alpha * S) / (beta + S);
         }
 
         /**
+         * Depensatory Beverton-Holt S-R relationship
+         *
+         * @param alpha - maximum recruitment
+         * @param beta  - the stock level needed to produce the half of maximum recruitment
+         * @param c     - exponent
+         * @param S     - spawning biomass or abundance
+         * @return
+         */
+        template<typename T>
+        const T BevertonHolt_dep(const T& alpha, const T& beta, const T& c, const T& S) {
+            T S_c = std::pow(S,c);
+            return (alpha * S_c) / (beta + S_c);
+        }
+
+        /**
+         * Shepherd S-R relationship
+         *
+         * @param alpha -
+         * @param beta  -
+         * @param c     - exponent
+         * @param S     - spawning biomass or abundance
+         * @return 
+         */
+        template<typename T>
+        const T Shepherd(const T& alpha, const T& beta, const T& c, const T& S) {
+            return (alpha * S) / (1.0 + std::pow((S / beta), c));
+        }
+
+        /**
+         * Deriso S-R relationship
          * 
          * @param alpha
          * @param beta
@@ -52,11 +97,9 @@ namespace cstar {
          * @return 
          */
         template<typename T>
-        const T DiRiso(const T& alpha, const T& beta, const T& c, const T& S) {
-            return (alpha * S) *std::pow((1.0 - beta*c*S),1.0/c);
+        const T Deriso(const T& alpha, const T& beta, const T& c, const T& S) {
+            return (alpha * S) * std::pow((1.0 - beta*c*S),1.0/c);
         }
-
-
     }
 }
 
